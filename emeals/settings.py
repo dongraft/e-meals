@@ -33,6 +33,7 @@ DJANGO_APPS = [
 LOCAL_APPS = [
     'dishes',
     'menus',
+    'reservations',
     'users'
 ]
 
