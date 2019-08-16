@@ -10,6 +10,5 @@ from users.models import (
     User
 )
 
-# admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 admin.site.register(Role)
