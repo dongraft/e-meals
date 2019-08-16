@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block head_content %}
+	<title>Dishes | EMeals</title>
+{% endblock %}
+
+{% block container %}
+
+	<ul>
+		{% for dishe in dishes %}
+		<li>{{ dishe.description }}</li>		
+		{% endfor %}
+	</ul>
+
+{% endblock %}
