@@ -16,7 +16,7 @@ class Reservation(models.Model):
     )
     date = models.DateTimeField(
         auto_now_add=True,
-        editable=True,
+        editable=False,
         null=False,
         blank=False,
         help_text='Date time on which the reservation was created.'
