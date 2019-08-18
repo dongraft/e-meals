@@ -1,22 +1,34 @@
 {% load static %}
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Navbar</a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" href="#">E-meals Nora</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item {% if request.resolver_match.app_name == 'reservations' %}active{% endif %}">
+                <a class="nav-link" href="#">Reservations
+                    <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Features</a>
+                <a class="nav-link {% if request.resolver_match.app_name == 'menus' %}active{% endif %}" href="#">Menus</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Pricing</a>
+            <li class="nav-item {% if request.resolver_match.app_name == 'dishes' %}active{% endif %}">
+                <a class="nav-link" href="{% url 'dishes:dishe_list' %}">Dishes</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle"
+                href="#" id="navbarDropdownMenuLink"
+                role="button" data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false">
+                    Username
+                </a>
+                <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">logout</a>
+                </div>
             </li>
         </ul>
     </div>
