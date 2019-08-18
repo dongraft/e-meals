@@ -14,6 +14,11 @@ class Dishe(models.Model):
     )
     price = models.PositiveIntegerField(default=0)
 
+    class Meta:
+        """Meta option."""
+
+        ordering = ['-id']
+
     def __str__(self):
         """Return description."""
         return self.description
