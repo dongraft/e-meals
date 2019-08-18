@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block head_content %}
+	<title>Dishes | EMeals</title>
+{% endblock %}
+{% block container %}
+<div class="row">
+	<div class="col-lg-2 ml-auto">
+		<a href="{% url 'dishes:dishe_list' %}" class="btn btn-secondary btn-block">go list</a>
+	</div>
+	<div class="col-lg-12">
+		<form method="POST">
+			{% csrf_token %}
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="form-group">
+						<label for="dishe-descripion">{{ form.description.label }}</label>
+						<textarea class="form-control {% if form.description.errors %}is-invalid{% endif %}" name="description"
+						id="dishe-descripion" rows="2">{% if form.description.value is not None %}{{ form.description.value }}{% endif %}</textarea>
+
+						<div class="invalid-feedback">
+                            {% for error in form.description.errors %}{{ error }}{% endfor %}
+                        </div>
+					</div>
+				</div>
+				<div class="col-lg-3 mr-auto">
+					<div class="form-group">
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="price-element">$</span>
+							</div>
+							<input type="text" class="form-control {% if form.price.errors %}is-invalid{% endif %}" id="input-price" placeholder="{{ form.price.label }}" aria-describedby="price-element" name="price" value="{% if form.price.value is not None %}{{ form.price.value }}{% endif %}">
+							<div class="invalid-feedback">
+								{% for error in form.price.errors %}{{ error }}{% endfor %}
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-2 ml-auto">
+			    	<button type="submit" class="btn btn-block btn-primary">Save</button>
+			    </div>
+			</div>
+		</form>
+	</div>
+</div>
+{% endblock %}
