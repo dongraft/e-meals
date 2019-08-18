@@ -1,12 +1,16 @@
 """Menus model."""
 
 from django.db import models
+from django.utils import timezone
+
+# Utilities
+from utils.models import EMealsBaseModel
 
 
-class Menu(models.Model):
+class Menu(EMealsBaseModel):
     """Menus model."""
 
-    date = models.DateField(null=False)
+    date = models.DateTimeField(default=timezone.now, null=False)
     name = models.TextField(
         max_length=50,
         blank=False,
