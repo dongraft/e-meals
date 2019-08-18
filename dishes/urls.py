@@ -8,7 +8,7 @@ from django.urls import path
 
 urlpatterns = [
     path(
-        route='list/',
+        route='',
         view=dishes_views.list_view,
         name='dishe_list'
     ),
