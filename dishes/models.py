@@ -13,6 +13,13 @@ class Dishe(models.Model):
         help_text='Description of the elements that will be part of the dish'
     )
     price = models.PositiveIntegerField(default=0)
+    is_enabled = models.BooleanField(
+        'is enabled',
+        default=True,
+        help_text=(
+            'Help to distinguish the dishes that are enabled from those that are not'
+        )
+    )
 
     class Meta:
         """Meta option."""
