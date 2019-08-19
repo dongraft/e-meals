@@ -16,4 +16,6 @@ urlpatterns = [
 
     path('dishes/', include(('dishes.urls', 'dishes'), namespace='dishes')),
 
+    path('menus/', include(('menus.urls', 'menus'), namespace='menus')),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

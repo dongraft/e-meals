@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block head_content %}
+	<title>Menus | EMeals</title>
+{% endblock %}
+{% block container %}
+    <div class="row">
+        <div class="col-lg-2 ml-auto">
+            <a href="{% url 'menus:menu_list' %}" class="btn btn-secondary btn-block">go list</a>
+        </div>
+        <div class="col-lg-12">
+            <form method="POST" action="{% url 'menus:menu_add_dishes' menu_id=menu.id %}">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h3>Select the dishes you want to include in your menu:</h3>
+                        <div class="form group">
+                            {% for dishe in dishes %}
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="{{ dishe.id }}"
+                                           id="dishe-{{ dishe.id }}" name="dishes_list">
+                                    <label class="form-check-label" for="dishe-{{ dishe.id }}">
+                                        {{ dishe.description }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="col-lg-2 ml-auto">
+                        <button type="submit" class="btn btn-block btn-primary">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

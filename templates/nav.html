@@ -11,7 +11,7 @@
                     <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {% if request.resolver_match.app_name == 'menus' %}active{% endif %}" href="#">Menus</a>
+                <a class="nav-link {% if request.resolver_match.app_name == 'menus' %}active{% endif %}" href="{% url 'menus:menu_list' %}">Menus</a>
             </li>
             <li class="nav-item {% if request.resolver_match.app_name == 'dishes' %}active{% endif %}">
                 <a class="nav-link" href="{% url 'dishes:dishe_list' %}">Dishes</a>
