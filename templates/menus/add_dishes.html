@@ -8,18 +8,18 @@
             <a href="{% url 'menus:menu_list' %}" class="btn btn-secondary btn-block">go list</a>
         </div>
         <div class="col-lg-12">
-            <form method="POST" action="{% url 'menus:menu_add_dishes' menu_id=menu.id %}">
+            <form method="POST" action="{% url 'menus:menu_add_dishes' menu_id=menu.uuid %}">
                 {% csrf_token %}
                 <div class="row">
                     <div class="col-lg-12">
                         <h3>Select the dishes you want to include in your menu:</h3>
                         <div class="form group">
-                            {% for dishe in dishes %}
+                            {% for dish in dishes %}
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="{{ dishe.id }}"
-                                           id="dishe-{{ dishe.id }}" name="dishes_list">
-                                    <label class="form-check-label" for="dishe-{{ dishe.id }}">
-                                        {{ dishe.description }}
+                                    <input class="form-check-input" type="checkbox" value="{{ dish.uuid }}"
+                                           id="dish-{{ dish.uuid }}" name="dishes_list">
+                                    <label class="form-check-label" for="dish-{{ dish.uuid }}">
+                                        {{ dish.description }}
                                     </label>
                                 </div>
                             {% endfor %}

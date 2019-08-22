@@ -5,7 +5,7 @@
 {% block container %}
 	<div class="row">
 		<div class="col-lg-2 ml-auto mb-3">
-			<a href="{% url 'dishes:dishe_create' %}" class="btn btn-block btn-primary">
+			<a href="{% url 'dishes:dish_create' %}" class="btn btn-block btn-primary">
 				Add new
 			</a>
 		</div>
@@ -13,7 +13,6 @@
 			<table class="table table-striped table-hover">
 				<thead>
 					<tr>
-						<th scope="col">#</th>
 						<th scope="col">Description</th>
 						<th scope="col">Price</th>
 					</tr>
@@ -21,7 +20,6 @@
 				<tbody>
 					{% for dishe in dishes %}
 						<tr>
-							<th scope="row">{{ forloop.counter }}</th>
 							<td>{{ dishe.description }}</td>
 							<td>${{ dishe.price }}</td>
 						</tr>

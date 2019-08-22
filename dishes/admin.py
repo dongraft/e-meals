@@ -1,8 +1,8 @@
 
 # Models
-from dishes.models import Dishe
+from dishes.models import Dish
 
 # Django
 from django.contrib import admin
 
-admin.site.register(Dishe)
+admin.site.register(Dish)

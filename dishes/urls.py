@@ -10,11 +10,11 @@ urlpatterns = [
     path(
         route='',
         view=dishes_views.list_view,
-        name='dishe_list'
+        name='dish_list'
     ),
     path(
         route='create/',
         view=dishes_views.create_view,
-        name='dishe_create'
+        name='dish_create'
     ),
 ]
