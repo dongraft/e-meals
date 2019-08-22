@@ -13,20 +13,18 @@
 			<table class="table table-striped table-hover">
 				<thead>
 					<tr>
-						<th scope="col">#</th>
 						<th scope="col">Menu name</th>
 						<th scope="col">Menu date</th>
-						<th scope="col" width="150">#</th>
+						<th scope="col" width="150"></th>
 					</tr>
 				</thead>
 				<tbody>
 					{% for menu in menus %}
 						<tr>
-							<th scope="row">{{ forloop.counter }}</th>
 							<td>{{ menu.name }}</td>
 							<td>{{ menu.date|date:"d M Y" }}</td>
 							<td>
-								<a href="{% url 'menus:menu_add_dishes' menu_id=menu.id %}"
+								<a href="{% url 'menus:menu_add_dishes' menu_id=menu.uuid %}"
                                    class="btn btn-sm btn-primary">
 									add dishes
 								</a>

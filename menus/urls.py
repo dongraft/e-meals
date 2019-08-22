@@ -18,7 +18,7 @@ urlpatterns = [
         name='menu_create'
     ),
     path(
-        route='<int:menu_id>/dishes/add/',
+        route='<uuid:menu_id>/dishes/add/',
         view=menu_views.add_dishes_view,
         name='menu_add_dishes'
     )
