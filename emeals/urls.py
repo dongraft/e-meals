@@ -18,4 +18,6 @@ urlpatterns = [
 
     path('menus/', include(('menus.urls', 'menus'), namespace='menus')),
 
+    path('reservations/', include(('reservations.urls', 'reservations'), namespace='reservations')),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
