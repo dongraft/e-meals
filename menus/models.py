@@ -47,7 +47,7 @@ class Menu(models.Model):
 
 class MenuDishes(models.Model):
     """Menus Dishes model."""
-
+    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     menu = models.ForeignKey('menus.Menu', on_delete=models.CASCADE)
     dish = models.ForeignKey('dishes.Dish', on_delete=models.CASCADE)
 
