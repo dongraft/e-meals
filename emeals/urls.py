@@ -8,6 +8,9 @@ from django.urls import (
     path
 )
 
+# View
+from emeals import views as emeals_views
+
 urlpatterns = [
     # Dont forget, delete at the end
     path('admin/', admin.site.urls),
@@ -19,5 +22,11 @@ urlpatterns = [
     path('menus/', include(('menus.urls', 'menus'), namespace='menus')),
 
     path('reservations/', include(('reservations.urls', 'reservations'), namespace='reservations')),
+
+    path(
+      route='',
+      view=emeals_views.home_view,
+      name='emeals_home'
+    )
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
