@@ -18,6 +18,11 @@ urlpatterns = [
         name='menu_create'
     ),
     path(
+        route='check-today-menu/',
+        view=menu_views.check_menu_of_day,
+        name="check_menu_of_day"
+    ),
+    path(
         route='<uuid:menu_id>/dishes/add/',
         view=menu_views.add_dishes_view,
         name='menu_add_dishes'

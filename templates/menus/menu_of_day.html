@@ -1,0 +1,22 @@
+{% extends "base_public.html" %}
+{% block head_content %}
+	<title>Menus of Day| EMeals</title>
+{% endblock %}
+{% block container %}
+    <div class="row justify-content-md-center">
+        <div class="col-lg-7">
+            <h1>Menu of day</h1>
+            <div class="list-group">
+                {% for menu_dishe in menu_dishes %}
+                    <li class="list-group-item">
+                        {{ menu_dishe.dish.description | title }}
+                        <a href="{% url 'reservations:menu_reserve' menu_dish_id=menu_dishe.uuid %}"
+                           class="btn btn-sm btn-dark float-right">
+                            Reserve
+                        </a>
+                    </li>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
