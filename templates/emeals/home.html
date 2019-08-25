@@ -1,0 +1,12 @@
+{% extends "base_public.html" %}
+{% block head_content %}
+	<title>HOME | EMeals</title>
+{% endblock %}
+{% block container %}
+	<div class="row justify-content-md-center">
+    <div class="col-6 mt-5 text-center">
+        <h3>Welcome to the site where you can book the most delicious lunch of the day</h3>
+        <a href="{% url 'menus:check_menu_of_day' %}" class="btn btn-primary btn-lg">Today's menu</a>
+    </div>
+    </div>
+{% endblock %}
