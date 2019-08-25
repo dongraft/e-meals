@@ -18,9 +18,7 @@ from .forms import MenuForm
 @login_required
 def list_view(request):
     """Get a list of menus."""
-
     menus = Menu.objects.all()
-
     return render(request, 'menus/list.html', context={
         'menus': menus
     })
@@ -29,7 +27,6 @@ def list_view(request):
 @login_required
 def create_view(request):
     """Create a new menu."""
-
     form = MenuForm()
     if request.method == 'POST':
         form = MenuForm(request.POST)
@@ -46,23 +43,21 @@ def create_view(request):
 @login_required
 def add_dishes_view(request, menu_id):
     """Add a new dish on menu."""
-
     menu = Menu.objects.get(pk=menu_id)
     dishes = Dish.objects.all()
-
     if request.method == 'POST':
         dishes_list = request.POST.getlist('dishes_list')
         for dish_id in dishes_list:
             dish = Dish.objects.get(pk=dish_id)
             menu_dishes = MenuDishes(menu=menu, dish=dish)
             menu_dishes.save()
-
         return HttpResponseRedirect(reverse('menus:menu_list'))
 
     return render(request, 'menus/add_dishes.html', context={
         'menu': menu,
         'dishes': dishes
     })
+
 
 def check_menu_of_day(request):
     """
@@ -74,7 +69,7 @@ def check_menu_of_day(request):
     today_menu_date = today_menu.date.strftime('%m-%d-%Y')
     today_date = now.strftime('%m-%d-%Y')
     if today_menu_date != today_date:
-        pass
+        return HttpResponseRedirect(reverse('menus:not_available'))
 
     return HttpResponseRedirect(reverse('menus:menu_of_day', args=(
         today_menu.uuid,
@@ -83,9 +78,13 @@ def check_menu_of_day(request):
 
 def menu_of_day(request, menu_id):
     """List menu of day."""
-
     menu_dishes = MenuDishes.objects.all().filter(menu_id=menu_id)
 
     return render(request, 'menus/menu_of_day.html', context={
         'menu_dishes': menu_dishes
     })
+
+
+def not_available_view(request):
+    """Menu not available."""
+    return render(request, 'menus/not_available.html')

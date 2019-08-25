@@ -23,6 +23,11 @@ urlpatterns = [
         name="check_menu_of_day"
     ),
     path(
+        route='not-available/',
+        view=menu_views.not_available_view,
+        name="not_available"
+    ),
+    path(
         route='<uuid:menu_id>/dishes/add/',
         view=menu_views.add_dishes_view,
         name='menu_add_dishes'
