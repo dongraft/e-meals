@@ -36,7 +36,6 @@ class CreateUserTestCase(TestCase):
     def test_unique_user_creation(self):
         """Proof that you cannot create a user with the same."""
         User.objects.create(**self.alan)
-
         with self.assertRaises(Exception) as raised:
             User.objects.create(**self.alonso)
         # Raise exception duplicate key value violates unique constraint
