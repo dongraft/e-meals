@@ -6,13 +6,12 @@ from django.db import models
 
 
 class User(AbstractUser):
-    """User model.
-
-    Extend from Django's Abstract User, change the username field
-    to email.
+    """
+    User model.
+    Extend from Django's Abstract User,
+    change the username field to email.
     """
 
-    roles = models.ManyToManyField('users.Role')
     email = models.EmailField(
         'email address',
         unique=True,
