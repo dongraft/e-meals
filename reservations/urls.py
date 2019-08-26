@@ -11,5 +11,10 @@ urlpatterns = [
         route='',
         view=reservation_views.list_view,
         name='menu_list'
-    )
+    ),
+    path(
+        route='<uuid:menu_dish_id>/reservate',
+        view=reservation_views.reserve_view,
+        name='menu_reserve'
+    ),
 ]
