@@ -33,8 +33,8 @@ class CreateUserTestCase(TestCase):
         user_alan = User.objects.create(**self.alan)
         self.assertIsNotNone(user_alan.id)
 
-    def test_unique_user_creation(self):
-        """Proof that you cannot create a user with the same."""
+    def test_create_user_unique_email(self):
+        """Proof that you cannot create a user with the same email."""
         User.objects.create(**self.alan)
         with self.assertRaises(Exception) as raised:
             User.objects.create(**self.alonso)
