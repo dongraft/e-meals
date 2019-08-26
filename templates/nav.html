@@ -1,6 +1,6 @@
 {% load static %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <a class="navbar-brand" href="#">E-meals Nora</a>
+    <a class="navbar-brand" href="{% url 'emeals_home' %}">E-meals Nora</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -10,13 +10,15 @@
                 <a class="nav-link" href="{% url 'reservations:menu_list' %}">Reservations
                     <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link {% if request.resolver_match.app_name == 'menus' %}active{% endif %}"
-                   href="{% url 'menus:menu_list' %}">Menus</a>
-            </li>
-            <li class="nav-item {% if request.resolver_match.app_name == 'dishes' %}active{% endif %}">
-                <a class="nav-link" href="{% url 'dishes:dish_list' %}">Dishes</a>
-            </li>
+            {% if user.is_superuser or user.is_staff %}
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.app_name == 'menus' %}active{% endif %}"
+                       href="{% url 'menus:menu_list' %}">Menus</a>
+                </li>
+                <li class="nav-item {% if request.resolver_match.app_name == 'dishes' %}active{% endif %}">
+                    <a class="nav-link" href="{% url 'dishes:dish_list' %}">Dishes</a>
+                </li>
+            {% endif  %}
         {% if user.is_authenticated %}
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle"
