@@ -5,9 +5,6 @@ import uuid
 from django.db import models
 from django.utils import timezone
 
-# Utilities
-from utils.models import EMealsBaseModel
-
 
 class Reservation(models.Model):
     """Reservations model."""
