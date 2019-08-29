@@ -84,7 +84,6 @@ def menu_of_day(request, menu_id):
     return HttpResponseRedirect(reverse('menus:not_available'))
 
 
-
 def not_available_view(request):
     """Menu not available."""
     return render(request, 'menus/not_available.html')
