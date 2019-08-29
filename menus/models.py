@@ -6,6 +6,8 @@ import uuid
 from django.db import models
 from django.utils import timezone
 
+from emeals.settings import RESERVE_CLOSING
+
 
 class Menu(models.Model):
     """Menus model."""
@@ -43,6 +45,13 @@ class Menu(models.Model):
     def __str__(self):
         """Return name."""
         return self.name
+
+    def is_available_today(self):
+        """Check if the menu is available today."""
+        now = timezone.localtime()
+        menu_date = self.date.strftime('%m-%d-%Y')
+        today_date = now.strftime('%m-%d-%Y')
+        return menu_date == today_date and now.strftime('%H') < RESERVE_CLOSING
 
 
 class MenuDishes(models.Model):

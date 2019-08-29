@@ -5,7 +5,6 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from django.utils import timezone
 
 # Models
 from menus.models import Menu, MenuDishes
@@ -64,25 +63,26 @@ def check_menu_of_day(request):
     Method that is responsible for verifying if there is
     a menu available to be offered to users
     """
-    now = timezone.now()
-    today_menu = Menu.objects.latest('date')
-    today_menu_date = today_menu.date.strftime('%m-%d-%Y')
-    today_date = now.strftime('%m-%d-%Y')
-    if today_menu_date != today_date:
+    menu = Menu.objects.latest('date')
+    if not menu.is_available_today:
         return HttpResponseRedirect(reverse('menus:not_available'))
 
     return HttpResponseRedirect(reverse('menus:menu_of_day', args=(
-        today_menu.uuid,
+        menu.uuid,
     )))
 
 
 def menu_of_day(request, menu_id):
     """List menu of day."""
-    menu_dishes = MenuDishes.objects.all().filter(menu_id=menu_id)
+    menu = Menu.objects.get(pk=menu_id)
+    if menu.is_available_today:
+        menu_dishes = MenuDishes.objects.all().filter(menu_id=menu_id)
+        return render(request, 'menus/menu_of_day.html', context={
+            'menu_dishes': menu_dishes
+        })
 
-    return render(request, 'menus/menu_of_day.html', context={
-        'menu_dishes': menu_dishes
-    })
+    return HttpResponseRedirect(reverse('menus:not_available'))
+
 
 
 def not_available_view(request):
