@@ -110,7 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = env('TIME_ZONE')
 
 USE_I18N = True
 
@@ -134,3 +134,6 @@ STATICFILES_FINDERS = [
 LOGIN_URL = '/users/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = LOGIN_URL
+
+# Time for closing reservations
+RESERVE_CLOSING = env('RESERVE_CLOSING', default='11')
