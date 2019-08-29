@@ -27,7 +27,14 @@ class CreateMenuTestCase(TestCase):
         self.assertIsNotNone(menu.uuid)
 
     def test_availability_today_menu(self):
+        """
+        Proof that a menu of the day is available or not
+        if the time of day is less than 11 am (am).
+        """
         menu = Menu.objects.create(**self.my_menu_local)
         now = timezone.localtime()
         current_time = now.strftime('%H')
-        self.assertFalse(menu.is_available_today())
+        if current_time < '11':
+            self.assertTrue(menu.is_available_today())
+        else:
+            self.assertFalse(menu.is_available_today())
