@@ -29,6 +29,7 @@ yarn-error.log*
 
 # Dependency directories
 node_modules/
+staticfiles/
 venv/
 
 # celery auto generate file
