@@ -1,6 +1,7 @@
 """Menus views."""
 
 # Django
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
@@ -13,6 +14,9 @@ from dishes.models import Dish
 
 # Forms
 from .forms import MenuForm
+
+# Celery
+from emeals.celery import send_menus
 
 
 @login_required
@@ -133,5 +137,27 @@ def confirm_view(request, menu_id):
 
         menu.is_confirmed = True
         menu.save()
+
+    return HttpResponseRedirect(reverse('menus:menu_list'))
+
+
+def menu_notify(request, menu_id):
+    """
+    Notify menu
+
+    View that allows you to manually notify the menu of the day
+    in case it is necessary to do it in addition to the periodic task.
+    """
+    try:
+        menu = Menu.objects.get(pk=menu_id)
+        if menu.is_available_today:
+            send_menus.delay()
+            msg = 'A notification will be sent to the slack channel for the {} menu'.format(menu.name)
+            messages.info(
+                request,
+                msg
+            )
+    except ObjectDoesNotExist:
+        return HttpResponseRedirect(reverse('not_found'))
 
     return HttpResponseRedirect(reverse('menus:menu_list'))

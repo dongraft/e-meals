@@ -23,6 +23,11 @@ urlpatterns = [
         name='menu_confirm'
     ),
     path(
+        route='<uuid:menu_id>/notify',
+        view=menu_views.menu_notify,
+        name='menu_notify'
+    ),
+    path(
         route='check-today-menu/',
         view=menu_views.check_menu_of_day,
         name="check_menu_of_day"
