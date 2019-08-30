@@ -6,6 +6,7 @@ import uuid
 from django.db import models
 from django.utils import timezone
 
+
 class Dish(models.Model):
     """Dishes model."""
 
@@ -45,4 +46,3 @@ class Dish(models.Model):
     def __str__(self):
         """Return description."""
         return self.description
-
