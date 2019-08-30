@@ -26,7 +26,10 @@
 					{% for reservation in reservations %}
 						<tr>
                             {% if user.is_superuser and user.is_staff %}
-							    <td>{{ reservation.user.email }}</td>
+							    <td>
+                                {{ reservation.user.first_name }} {{ reservation.user.last_name }} <br>
+                                    <small>{{ reservation.user.email }} </small>
+                                </td>
                             {% endif %}
                             <td>{{ reservation.menu_dish.menu.name }}</td>
                             <td>{{ reservation.menu_dish.dish.description }}</td>
