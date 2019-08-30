@@ -2,6 +2,7 @@
 
 # Django
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
@@ -63,7 +64,11 @@ def check_menu_of_day(request):
     Method that is responsible for verifying if there is
     a menu available to be offered to users
     """
-    menu = Menu.objects.latest('date')
+    try:
+        menu = Menu.objects.latest('date')
+    except ObjectDoesNotExist:
+        return HttpResponseRedirect(reverse('not_found'))
+
     if not menu.is_available_today:
         return HttpResponseRedirect(reverse('menus:not_available'))
 
