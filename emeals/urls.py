@@ -27,6 +27,16 @@ urlpatterns = [
       route='',
       view=emeals_views.home_view,
       name='emeals_home'
+    ),
+    path(
+      route='404',
+      view=emeals_views.not_found_view,
+      name='not_found'
+    ),
+    path(
+      route='500',
+      view=emeals_views.server_error_view,
+      name='server_error'
     )
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
