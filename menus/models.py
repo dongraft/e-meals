@@ -48,10 +48,9 @@ class Menu(models.Model):
 
     def is_available_today(self):
         """Check if the menu is available today."""
-        now = timezone.localtime()
-        menu_date = self.date.strftime('%m-%d-%Y')
-        today_date = now.strftime('%m-%d-%Y')
-        return menu_date == today_date and now.strftime('%H') < RESERVE_CLOSING
+        today = timezone.localtime().strftime('%Y-%m-%d')
+        current_hour = timezone.localtime().strftime('%H')
+        return self.date.strftime('%Y-%m-%d') == today and current_hour < RESERVE_CLOSING
 
 
 class MenuDishes(models.Model):

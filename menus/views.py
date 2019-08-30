@@ -6,6 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.utils import timezone
 
 # Models
 from menus.models import Menu, MenuDishes
@@ -17,7 +18,9 @@ from .forms import MenuForm
 
 @login_required
 def list_view(request):
-    """Get a list of menus."""
+    """
+    Get a list of all registered menus.
+    """
     menus = Menu.objects.all()
     return render(request, 'menus/list.html', context={
         'menus': menus
@@ -26,14 +29,23 @@ def list_view(request):
 
 @login_required
 def create_view(request):
-    """Create a new menu."""
+    """
+    Create a new menu
+
+    A new menu will be generated given a particular date, if for the selected
+    date a menu already exists, it will be canceled and the user will be notified
+    that he cannot add another menu for the same date.
+    """
     form = MenuForm()
     if request.method == 'POST':
         form = MenuForm(request.POST)
         if form.is_valid():
             new_dish = Menu(**form.cleaned_data)
             new_dish.save()
-            return HttpResponseRedirect(reverse('menus:menu_add_dishes', args=(new_dish.uuid,)))
+            return HttpResponseRedirect(reverse(
+                'menus:menu_add_dishes',
+                args=(new_dish.uuid,)
+            ))
 
     return render(request, 'menus/create.html', context={
         'form': form
@@ -42,9 +54,12 @@ def create_view(request):
 
 @login_required
 def add_dishes_view(request, menu_id):
-    """Add a new dish on menu."""
+    """
+    It allows us to add the different dishes that make up the menu.
+    """
     menu = Menu.objects.get(pk=menu_id)
     dishes = Dish.objects.all()
+
     if request.method == 'POST':
         dishes_list = request.POST.getlist('dishes_list')
         for dish_id in dishes_list:
@@ -79,7 +94,11 @@ def check_menu_of_day(request):
 
 def menu_of_day(request, menu_id):
     """List menu of day."""
-    menu = Menu.objects.get(pk=menu_id)
+    try:
+        menu = Menu.objects.get(pk=menu_id)
+    except ObjectDoesNotExist:
+        return HttpResponseRedirect(reverse('not_found'))
+
     if menu.is_available_today:
         menu_dishes = MenuDishes.objects.all().filter(menu_id=menu_id)
         return render(request, 'menus/menu_of_day.html', context={
