@@ -23,11 +23,10 @@ app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
 app.conf.beat_schedule = {
     'send_menus-please-works': {
         'task': 'emeals.celery.send_menus',
-        #'schedule': 2,
         'schedule': crontab(
-            minute='11,12,13,14,15',
-            hour='0,8,9,23',
-            day_of_week='mon-fri'
+            minute=settings.CRONTAB_MINUTE,
+            hour=settings.CRONTAB_HOUR,
+            day_of_week=settings.CRONTAB_DAY_OF_WEEK
         )
     },
 }
@@ -62,7 +61,7 @@ def send_menus(task=None):
                 menu_dish.dish.price
             )
 
-        path = reverse('menus:menu_of_day', args=('7a4ccaa1-f16b-4ea4-b492-ae1e6c59f78f',))
+        path = reverse('menus:menu_of_day', args=(menu.uuid,))
 
         message += '\n\nTo make your reservation visit following link: {}'.format(
             settings.SITE_DOMINE+path
