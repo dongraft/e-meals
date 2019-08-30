@@ -111,3 +111,28 @@ def menu_of_day(request, menu_id):
 def not_available_view(request):
     """Menu not available."""
     return render(request, 'menus/not_available.html')
+
+
+def confirm_view(request, menu_id):
+    """
+    Confirm menu status
+
+    The menu will be available as long as it is confirmed by the admin / seller / Nora user,
+    once confirmed it can no longer be modified
+    """
+    try:
+        menu = Menu.objects.get(pk=menu_id)
+    except ObjectDoesNotExist:
+        return HttpResponseRedirect(reverse('not_found'))
+
+    if not menu.is_confirmed:
+        menu_dishes_taken = MenuDishes.objects.filter(menu_id=menu.uuid).exists()
+        if not menu_dishes_taken:
+            return HttpResponseRedirect(reverse('menus:menu_add_dishes', args=(
+                menu.uuid,
+            )))
+
+        menu.is_confirmed = True
+        menu.save()
+
+    return HttpResponseRedirect(reverse('menus:menu_list'))

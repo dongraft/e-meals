@@ -24,10 +24,14 @@
 							<td>{{ menu.name }}</td>
 							<td>{{ menu.date|date:"d M Y" }}</td>
 							<td>
-								<a href="{% url 'menus:menu_add_dishes' menu_id=menu.uuid %}"
-                                   class="btn btn-sm btn-primary">
-									add dishes
-								</a>
+                                {% if not menu.is_confirmed %}
+                                    <a href="{% url 'menus:menu_confirm' menu_id=menu.uuid %}"
+                                       class="btn btn-sm btn-primary">
+                                        Confirm
+                                    </a>
+                                {% else %}
+                                    <span class="badge badge-pill badge-success">Confirmed</span>
+								{% endif %}
 							</td>
 						</tr>
 					{% endfor %}
