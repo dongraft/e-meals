@@ -51,28 +51,29 @@ def send_menus(task=None):
 
     if menu_taken:
         menu = Menu.objects.get(date=today)
-        menu_dishes = MenuDishes.objects.filter(menu_id=menu.uuid)
+        if menu.is_confirmed:
+            menu_dishes = MenuDishes.objects.filter(menu_id=menu.uuid)
 
-        message = '*{}* \n\n'.format(menu.name)
+            message = '*{}* \n\n'.format(menu.name)
 
-        for menu_dish in menu_dishes:
-            message += '- {} *${}*\n'.format(
-                menu_dish.dish.description,
-                menu_dish.dish.price
+            for menu_dish in menu_dishes:
+                message += '- {} *${}*\n'.format(
+                    menu_dish.dish.description,
+                    menu_dish.dish.price
+                )
+
+            path = reverse('menus:menu_of_day', args=(menu.uuid,))
+
+            message += '\n\nTo make your reservation visit following link: {}'.format(
+                settings.SITE_DOMINE+path
             )
 
-        path = reverse('menus:menu_of_day', args=(menu.uuid,))
+            session = requests.Session()
+            response = session.post(
+                settings.SLACK_CHANEL,
+                json={
+                    "text": message
+                }
+            )
 
-        message += '\n\nTo make your reservation visit following link: {}'.format(
-            settings.SITE_DOMINE+path
-        )
-
-        session = requests.Session()
-        response = session.post(
-            settings.SLACK_CHANEL,
-            json={
-                "text": message
-            }
-        )
-
-        print(response.status_code, response.text)
+            print(response.status_code, response.text)
