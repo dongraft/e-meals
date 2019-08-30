@@ -6,7 +6,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from django.utils import timezone
 
 # Models
 from menus.models import Menu, MenuDishes
