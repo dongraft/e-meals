@@ -1,11 +1,12 @@
-"""Menu test model."""
+"""Menus tests model."""
 
 # Django
 from django.test import TestCase
 from django.utils import timezone
 
 # Model
-from menus.models import Menu
+from dishes.models import Dish
+from menus.models import Menu, MenuDishes
 
 
 class CreateMenuTestCase(TestCase):
@@ -21,7 +22,7 @@ class CreateMenuTestCase(TestCase):
             'name': 'Current Menu'
         }
 
-    def test_create_dish(self):
+    def test_create_menu(self):
         """Verify that the dish was created correctly."""
         menu = Menu.objects.create(**self.my_menu)
         self.assertIsNotNone(menu.uuid)
@@ -38,3 +39,22 @@ class CreateMenuTestCase(TestCase):
             self.assertTrue(menu.is_available_today())
         else:
             self.assertFalse(menu.is_available_today())
+
+
+class CreateMenuDisheTestCase(TestCase):
+    """Menu Dish test model."""
+
+    def setUp(self):
+        self.my_dish = {
+            'description': 'Chicken with rice, salad, fruit',
+            'price': 2990
+        }
+        self.my_menu = {
+            'date': '2019-08-26',
+            'name': 'Monday Menu'
+        }
+
+    def test_create_menu_dish(self):
+        """Verify that the menu_dish was created correctly."""
+        menu = Menu.objects.create(**self.my_menu)
+        self.assertIsNotNone(menu.uuid)
