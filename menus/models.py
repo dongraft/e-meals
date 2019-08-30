@@ -23,6 +23,13 @@ class Menu(models.Model):
         default="today's menu",
         help_text='Descriptive name.'
     )
+    is_confirmed = models.BooleanField(
+        'confirmed by seller/Nora',
+        default=False,
+        help_text=(
+            'Help easily distinguish status of Menú, False could allow modifications.'
+        )
+    )
     created_at = models.DateTimeField(
         default=timezone.now,
         editable=False,
