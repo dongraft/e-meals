@@ -12,9 +12,6 @@ from django.urls import (
 from emeals import views as emeals_views
 
 urlpatterns = [
-    # Dont forget, delete at the end
-    path('admin/', admin.site.urls),
-
     path('users/', include(('users.urls', 'users'), namespace='users')),
 
     path('dishes/', include(('dishes.urls', 'dishes'), namespace='dishes')),
