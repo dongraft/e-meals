@@ -137,3 +137,4 @@ LOGOUT_REDIRECT_URL = LOGIN_URL
 
 # Time for closing reservations
 RESERVE_CLOSING = env('RESERVE_CLOSING', default='11')
+SLACK_CHANEL = env('SLACK_CHANEL')
