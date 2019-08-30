@@ -125,3 +125,18 @@ And in a different tab
 ```
 $ python manage.py runserver
 ```
+
+#### Then the first thing to do is add an admin user.
+```
+$ python manage.py createsuperuser --username=<Username> --email=<email>
+```
+
+Once the admin user is created, you must access
+in your administration view to:
+```
+for example -> http://127.0.0.1:8000/users/login/
+```
+
+Then to prepare a menu, the dishes must first be registered, accessing from the "dishes" button in the top menu.
+
+Once our dishes are registered, we can add them to the menu and make them available for the day we define.
