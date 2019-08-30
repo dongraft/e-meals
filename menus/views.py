@@ -43,12 +43,12 @@ def create_view(request):
     if request.method == 'POST':
         form = MenuForm(request.POST)
         if form.is_valid():
-            new_dish = Menu(**form.cleaned_data)
-            new_dish.save()
-            return HttpResponseRedirect(reverse(
-                'menus:menu_add_dishes',
-                args=(new_dish.uuid,)
-            ))
+            menu = Menu(**form.cleaned_data)
+            menu.save()
+
+            return HttpResponseRedirect(reverse('menus:menu_edit_dishes', args=(
+                menu.uuid,
+            )))
 
     return render(request, 'menus/create.html', context={
         'form': form
@@ -56,25 +56,67 @@ def create_view(request):
 
 
 @login_required
-def add_dishes_view(request, menu_id):
+def add_dishes_view(request, menu_id, dish_id):
     """
     It allows us to add the different dishes that make up the menu.
     """
     menu = Menu.objects.get(pk=menu_id)
+    dish = Dish.objects.get(pk=dish_id)
+
+    menu_dishes_taken = MenuDishes.objects.filter(
+        menu_id=menu.uuid,
+        dish_id=dish.uuid
+    ).exists()
+
+    if not menu_dishes_taken:
+        menu_dishes = MenuDishes(menu=menu, dish=dish)
+        menu_dishes.save()
+
+    return HttpResponseRedirect(reverse('menus:menu_edit_dishes', args=(
+        menu.uuid,
+    )))
+
+
+@login_required
+def edit_dishes_view(request, menu_id):
+    """
+    Allows us to edit the different dishes that make up the menu.
+    """
+    menu = Menu.objects.get(pk=menu_id)
+    my_menu_dishes = MenuDishes.objects.filter(menu_id=menu_id)
+    ids_dishes_list = []
+    for my_md in my_menu_dishes:
+        ids_dishes_list.append(my_md.dish.uuid)
+
     dishes = Dish.objects.all()
 
-    if request.method == 'POST':
-        dishes_list = request.POST.getlist('dishes_list')
-        for dish_id in dishes_list:
-            dish = Dish.objects.get(pk=dish_id)
-            menu_dishes = MenuDishes(menu=menu, dish=dish)
-            menu_dishes.save()
-        return HttpResponseRedirect(reverse('menus:menu_list'))
-
-    return render(request, 'menus/add_dishes.html', context={
+    return render(request, 'menus/edit_dishes.html', context={
         'menu': menu,
-        'dishes': dishes
+        'dishes': dishes,
+        'my_menu_dishes': my_menu_dishes,
+        'ids_dishes_list': ids_dishes_list
     })
+
+
+@login_required
+def remove_dishes_view(request, menu_id, menu_dish_id):
+    """
+    It allows us to remove a dish from a respective menu,
+    as long as the menu has not been confirmed.
+    """
+    menu = Menu.objects.get(pk=menu_id)
+    menu_dish = MenuDishes.objects.get(pk=menu_dish_id)
+
+    if menu.is_confirmed:
+        msg = 'We are sorry, but this menu: {} has already been confirmed, '
+        msg += 'therefore you can no longer edit your dishes.'.format(menu.name)
+        messages.info(request, msg)
+    else:
+        menu_dish.delete()
+
+    return HttpResponseRedirect(reverse('menus:menu_edit_dishes', args=(
+        menu.uuid,
+    )))
 
 
 def check_menu_of_day(request):
@@ -116,6 +158,7 @@ def not_available_view(request):
     return render(request, 'menus/not_available.html')
 
 
+@login_required
 def confirm_view(request, menu_id):
     """
     Confirm menu status
@@ -130,8 +173,9 @@ def confirm_view(request, menu_id):
 
     if not menu.is_confirmed:
         menu_dishes_taken = MenuDishes.objects.filter(menu_id=menu.uuid).exists()
+
         if not menu_dishes_taken:
-            return HttpResponseRedirect(reverse('menus:menu_add_dishes', args=(
+            return HttpResponseRedirect(reverse('menus:menu_edit_dishes', args=(
                 menu.uuid,
             )))
 
@@ -141,6 +185,7 @@ def confirm_view(request, menu_id):
     return HttpResponseRedirect(reverse('menus:menu_list'))
 
 
+@login_required
 def menu_notify(request, menu_id):
     """
     Notify menu

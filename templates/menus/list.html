@@ -27,7 +27,7 @@
 						<th scope="col">Menu name</th>
 						<th scope="col">Menu date</th>
                         <th scope="col">Is confirmed</th>
-						<th scope="col" width="150"></th>
+						<th scope="col" width="200"></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -47,6 +47,10 @@
                                     <a href="{% url 'menus:menu_confirm' menu_id=menu.uuid %}"
                                        class="btn btn-sm btn-primary">
                                         Confirm
+                                    </a>&nbsp;&nbsp;
+                                    <a href="{% url 'menus:menu_edit_dishes' menu_id=menu.uuid %}"
+                                       class="btn btn-sm btn-secondary">
+                                        Edit Menu
                                     </a>
 								{% endif %}
                             {% if menu.is_available_today %}
